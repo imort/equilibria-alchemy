@@ -9,7 +9,7 @@ import com.github.kotlintelegrambot.entities.ChatId
 
 class TelegramHandler(private val service: TelegramService) : Handler {
     private val bot = bot {
-        token = System.getenv("EQB_TELEGRAM_BOT_TOKEN").also { println("Token length ${it.length}") }
+        token = System.getenv("EQB_TELEGRAM_BOT_TOKEN")
         dispatch {
             command("start") {
                 val id = message.chat.id
