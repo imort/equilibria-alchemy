@@ -1,0 +1,2 @@
+runtime: java11
+entrypoint: 'java -jar equilibria-alchemy-1.0-all.jar'

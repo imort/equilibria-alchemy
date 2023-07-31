@@ -1,0 +1,25 @@
+[versions]
+appengine = "2.4.2"
+exposed = "0.41.1"
+h2 = "2.2.220"
+java = "11"
+kotlin = "1.9.0"
+ktor = "2.3.2"
+shadow = "7.1.2"
+telegram = "6.1.0"
+
+[libraries]
+exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-content = { group = "io.ktor", name = "ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty", version.ref = "ktor" }
+telegram = { group = "io.github.kotlin-telegram-bot.kotlin-telegram-bot", name = "telegram", version.ref = "telegram" }
+
+[plugins]
+appengine = { id = "com.google.cloud.tools.appengine", version.ref = "appengine" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
