@@ -1,18 +1,15 @@
 [versions]
 appengine = "2.4.2"
-exposed = "0.41.1"
-h2 = "2.2.220"
-java = "11"
+gcloud = "26.20.0"
+java = "17"
 kotlin = "1.9.0"
 ktor = "2.3.2"
 shadow = "7.1.2"
 telegram = "6.1.0"
 
 [libraries]
-exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
-exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
-exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
-h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+gcloud-platform = { group = "com.google.cloud", name = "libraries-bom", version.ref = "gcloud" }
+gcloud-datastore = { group = "com.google.cloud", name = "google-cloud-datastore" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-content = { group = "io.ktor", name = "ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty", version.ref = "ktor" }

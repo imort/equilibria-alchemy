@@ -18,18 +18,22 @@ repositories {
 }
 
 dependencies {
+    implementation(platform(libs.gcloud.platform))
+    implementation(libs.gcloud.datastore)
+
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.server.content)
     implementation(libs.ktor.server.netty)
 
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.dao)
-    implementation(libs.exposed.jdbc)
-    implementation(libs.h2)
-
     implementation(libs.telegram)
 
     testImplementation(kotlin("test"))
+}
+
+configurations.all {
+    resolutionStrategy.capabilitiesResolution.withCapability("com.google.guava:listenablefuture") {
+        select("com.google.guava:guava:0")
+    }
 }
 
 tasks.test {
