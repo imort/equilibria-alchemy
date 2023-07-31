@@ -9,7 +9,7 @@ import db.TelegramService
 
 class TelegramHandler(private val service: TelegramService) : Handler {
     private val bot = bot {
-        token = "YOUR_API_KEY"
+        token = System.getenv("EQB_TELEGRAM_BOT_TOKEN")
         dispatch {
             command("start") {
                 val id = message.chat.id
