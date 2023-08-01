@@ -8,6 +8,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.serialization.json.Json
 import tg.TelegramHandler
 import tg.TelegramService
 
@@ -24,7 +25,7 @@ fun Application.alchemy() {
     )
 
     install(ContentNegotiation) {
-        json()
+        json(Json { ignoreUnknownKeys = true })
     }
 
     routing {
