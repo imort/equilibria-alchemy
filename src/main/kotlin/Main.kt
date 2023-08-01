@@ -41,8 +41,11 @@ fun Application.alchemy() {
                     .block
                     .logs
                     .map { EventLog.from(network, it) }
-                handlers.onEach { handler ->
-                    handler.dispatch(logs)
+                if (logs.isNotEmpty()) {
+                    println("Processing logs: ${logs.size}")
+                    handlers.onEach { handler ->
+                        handler.dispatch(logs)
+                    }
                 }
                 call.respond(HttpStatusCode.OK)
             } catch (t: Throwable) {
