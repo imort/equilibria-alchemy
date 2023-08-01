@@ -7,7 +7,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import tg.TelegramHandler
 import tg.TelegramService
 
@@ -16,10 +16,6 @@ fun main(args: Array<String>) {
     println("Program arguments: ${args.joinToString()}")
     EngineMain.main(args)
 }
-
-private val scope = CoroutineScope(
-    SupervisorJob() + CoroutineExceptionHandler { _, throwable -> throwable.printStackTrace() }
-)
 
 fun Application.alchemy() {
     val datastore = DatastoreOptions.getDefaultInstance().service
@@ -35,7 +31,7 @@ fun Application.alchemy() {
         get("_ah/warmup") {
             call.respond(HttpStatusCode.OK)
         }
-        post(Regex("""/alchemy/(?<network>.+)""")) {
+        post(Regex("""alchemy/(?<network>.+)""")) {
             try {
                 val network = call.parameters["network"] ?: error("Missing network in ${call.parameters}")
                 val logs = call.receive<AlchemyInfo>()
@@ -44,7 +40,7 @@ fun Application.alchemy() {
                     .logs
                     .map { EventLog.from(network, it) }
                 handlers.onEach { handler ->
-                    scope.launch { handler.dispatch(logs) }
+                    handler.dispatch(logs)
                 }
                 call.respond(HttpStatusCode.OK)
             } catch (t: Throwable) {

@@ -11,7 +11,12 @@ class TelegramService(
     private val dispatcher: CoroutineDispatcher,
     private val datastore: Datastore,
 ) {
-    private val keyFactory = datastore.newKeyFactory().setKind(KIND)
+    private val keyFactory = datastore
+        .newKeyFactory()
+        .setKind(KIND)
+    private val query = Query.newEntityQueryBuilder()
+        .setKind(KIND)
+        .build()
 
     suspend fun register(id: Long): Entity? = withContext(dispatcher) {
         val key = keyFactory.newKey(id)
@@ -36,9 +41,6 @@ class TelegramService(
     }
 
     suspend fun users(): List<User> = withContext(dispatcher) {
-        val query = Query.newEntityQueryBuilder()
-            .setKind(KIND)
-            .build()
         val users = mutableListOf<User>()
         datastore.run(query).forEach {
             users += User(

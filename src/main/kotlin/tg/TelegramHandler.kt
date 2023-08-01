@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.entities.ChatId
+import db.User
 
 class TelegramHandler(private val service: TelegramService) : Handler {
     private val bot = bot {
@@ -16,7 +17,7 @@ class TelegramHandler(private val service: TelegramService) : Handler {
                 if (service.register(id) != null) {
                     bot.sendMessage(chatId = ChatId.fromId(id), text = "Subscribed")
                 } else {
-                    println("Can not register $id for updates")
+                    bot.sendMessage(chatId = ChatId.fromId(id), text = "Can not register $id for updates")
                 }
             }
             command("stop") {
@@ -24,16 +25,16 @@ class TelegramHandler(private val service: TelegramService) : Handler {
                 if (service.unregister(id)) {
                     bot.sendMessage(chatId = ChatId.fromId(id), text = "Unsubscribed")
                 } else {
-                    println("Can not unregister $id for updates")
+                    bot.sendMessage(chatId = ChatId.fromId(id), text = "Can not unregister $id for updates")
                 }
             }
             command("limit") {
                 val id = message.chat.id
-                val limit = args.single().toLong()
+                val limit = runCatching { args.single().toLong() }.getOrDefault(User.LIMIT_DEFAULT)
                 if (service.limit(id, limit) != null) {
                     bot.sendMessage(chatId = ChatId.fromId(id), text = "Limit is set to $limit")
                 } else {
-                    println("Can not set limit $limit for $id")
+                    bot.sendMessage(chatId = ChatId.fromId(id), text = "Can not set limit $limit for $id")
                 }
             }
         }
