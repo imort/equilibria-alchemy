@@ -1,14 +1,16 @@
 import kotlinx.serialization.Serializable
-import java.math.BigInteger
 
 @Serializable
-data class AlchemyInfo(val event: AlchemyEvent)
+data class AlchemyInfo(val event: AlchemyEvent = AlchemyEvent())
 
 @Serializable
-data class AlchemyEvent(val data: AlchemyData)
+data class AlchemyEvent(val data: AlchemyData = AlchemyData())
 
 @Serializable
-data class AlchemyData(val logs: List<AlchemyLog>)
+data class AlchemyData(val block: AlchemyBlock = AlchemyBlock())
+
+@Serializable
+data class AlchemyBlock(val logs: List<AlchemyLog> = emptyList())
 
 @Serializable
 data class AlchemyLog(val data: String, val topics: List<String>)

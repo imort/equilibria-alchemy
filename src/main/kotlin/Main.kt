@@ -38,6 +38,7 @@ fun Application.alchemy() {
                 val logs = call.receive<AlchemyInfo>()
                     .event
                     .data
+                    .block
                     .logs
                     .map { EventLog.from(network, it) }
                 handlers.onEach { handler ->
