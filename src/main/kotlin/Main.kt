@@ -60,6 +60,7 @@ fun Application.module() {
         post("moralis") {
             handleSafely {
                 val response = call.receive<MoralisEvent>()
+                if (!response.confirmed) return@handleSafely emptyList() // allow only confirmed events
                 val network = response.chainId.label
                 response.logs.map { Event.from(network, it) }
             }
