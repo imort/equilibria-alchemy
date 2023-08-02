@@ -1,12 +1,12 @@
 package tg
 
-import EventLog
+import Event
 import Handler
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.entities.ChatId
-import db.User
+import java.math.BigDecimal
 
 class TelegramHandler(private val service: TelegramService) : Handler {
     private val bot = bot {
@@ -30,7 +30,7 @@ class TelegramHandler(private val service: TelegramService) : Handler {
             }
             command("limit") {
                 val id = message.chat.id
-                val limit = runCatching { args.single().toLong() }.getOrDefault(User.LIMIT_DEFAULT)
+                val limit = runCatching { args.single().toLong() }.getOrDefault(TelegramUser.LIMIT_DEFAULT)
                 if (service.limit(id, limit) != null) {
                     bot.sendMessage(chatId = ChatId.fromId(id), text = "Limit is set to $limit")
                 } else {
@@ -42,10 +42,10 @@ class TelegramHandler(private val service: TelegramService) : Handler {
         startPolling()
     }
 
-    override suspend fun dispatch(events: List<EventLog>) {
+    override suspend fun dispatch(events: List<Event>) {
         for (user in service.users()) {
             for (event in events) {
-                if (event.lock.value.toLong() >= user.limit) {
+                if (event.amount >= BigDecimal(user.limit)) {
                     bot.sendMessage(chatId = ChatId.fromId(user.id), text = event.toString())
                 }
             }

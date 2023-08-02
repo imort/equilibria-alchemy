@@ -1,11 +1,11 @@
-import kotlinx.serialization.json.Json
+package model
+
+import Dependencies
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class ModelKtTest {
-    private val json = Json { ignoreUnknownKeys = true }
-
+class AlchemyTest {
     @Test
     fun deserialize() {
         @Language("JSON")
@@ -80,6 +80,6 @@ class ModelKtTest {
             )
         )
 
-        assertEquals(expected, json.decodeFromString<AlchemyInfo>(content))
+        assertEquals(expected, Dependencies.json.decodeFromString<AlchemyInfo>(content))
     }
 }

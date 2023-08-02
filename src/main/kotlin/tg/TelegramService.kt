@@ -3,7 +3,6 @@ package tg
 import com.google.cloud.datastore.Datastore
 import com.google.cloud.datastore.Entity
 import com.google.cloud.datastore.Query
-import db.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -21,7 +20,7 @@ class TelegramService(
     suspend fun register(id: Long): Entity? = withContext(dispatcher) {
         val key = keyFactory.newKey(id)
         val entity = Entity.newBuilder(key)
-            .set("limit", User.LIMIT_DEFAULT)
+            .set("limit", TelegramUser.LIMIT_DEFAULT)
             .build()
         datastore.add(entity)
     }
@@ -40,10 +39,10 @@ class TelegramService(
         datastore.put(entity)
     }
 
-    suspend fun users(): List<User> = withContext(dispatcher) {
-        val users = mutableListOf<User>()
+    suspend fun users(): List<TelegramUser> = withContext(dispatcher) {
+        val users = mutableListOf<TelegramUser>()
         datastore.run(query).forEach {
-            users += User(
+            users += TelegramUser(
                 id = it.key.id,
                 limit = it.getLong("limit"),
             )

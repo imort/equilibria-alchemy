@@ -1,3 +1,3 @@
 interface Handler {
-    suspend fun dispatch(events: List<EventLog>)
+    suspend fun dispatch(events: List<Event>)
 }
